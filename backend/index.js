@@ -229,7 +229,7 @@ app.post('/upload', upload.single('aadhaar'), async (req, res) => {
                   qrPath = path.join(userDir, `${baseName}_qr.png`);
 
                   // Use ImageMagick CLI to convert .ppm → .png
-  const convertCmd = `convert "${ppmPath}" "${qrPath}"`;
+                  const convertCmd = `convert "${ppmPath}" "${qrPath}"`;
 
                   try {
                     await new Promise((resolve, reject) => {
@@ -371,7 +371,7 @@ app.post('/upload', upload.single('aadhaar'), async (req, res) => {
       drawWrappedText(backCtx, addressHindi || '—', hindiX, hindiY, 1850, 120);
 
       // 🌐 English Address
-      backCtx.font = '65pt Arial';
+      backCtx.font = '55pt Arial';
       drawWrappedText(backCtx, addressEnglish || '—', englishX, englishY, 1850, 120);
 
 

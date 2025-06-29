@@ -2,37 +2,44 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Aadhaar Generator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart PDF Render</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h2>Aadhaar Card Generator</h2>
+    <div class="top-bar">
+      <h2>Smart PDF Render</h2>
+      <label class="dark-toggle">
+        <input type="checkbox" id="darkToggle" />
+        <span class="slider"></span>
+      </label>
+    </div>
+
     <form id="uploadForm">
       <input type="file" id="aadhaarFile" accept="application/pdf" required />
       <input type="password" id="password" placeholder="Enter e-Aadhaar password" required autocomplete="new-password" />
-      <button type="submit">Generate Aadhaar Card</button>
+      <button type="submit" id="submitBtn">
+        <span id="btnText">Generate Aadhaar Card</span>
+        <span id="spinner" class="hidden"></span>
+      </button>
     </form>
 
-          <div id="templatePreview" style="display:none;">
-  <div class="side-by-side">
-    <div class="preview-box">
-      <h4>Front Side</h4>
-      <img id="templateFront" />
-      <br />
-      <a id="downloadFront" href="#" target="_blank">Open Front in New Tab</a>
-    </div>
-    <div class="preview-box">
-      <h4>Back Side</h4>
-      <img id="templateBack" />
-      <br />
-      <a id="downloadBack" href="#" target="_blank">Open Back in New Tab</a>
+    <div id="templatePreview" style="display:none;">
+      <div class="side-by-side">
+        <div class="preview-box">
+          <h4>Front Side</h4>
+          <img id="templateFront" />
+          <a id="downloadFront" href="#" target="_blank">Open Front in New Tab</a>
+        </div>
+        <div class="preview-box">
+          <h4>Back Side</h4>
+          <img id="templateBack" />
+          <a id="downloadBack" href="#" target="_blank">Open Back in New Tab</a>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-
-
-
 
   <script src="script.js"></script>
 </body>

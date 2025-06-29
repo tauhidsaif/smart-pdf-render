@@ -1,4 +1,3 @@
-// ✅ Enhanced script.js
 console.log("Script loaded");
 
 const form = document.getElementById('uploadForm');
@@ -9,7 +8,7 @@ const cardFlipper = document.getElementById('cardFlipper');
 const toast = document.getElementById('toast');
 const darkToggle = document.getElementById('darkToggle');
 
-// Toggle dark mode
+// DARK MODE
 if (localStorage.getItem('theme') === 'dark') {
   darkToggle.checked = true;
   document.body.classList.add('dark');
@@ -20,19 +19,19 @@ darkToggle.addEventListener('change', () => {
   localStorage.setItem('theme', darkToggle.checked ? 'dark' : 'light');
 });
 
-// Flip card on click
+// FLIP CARD
 cardFlipper.addEventListener('click', () => {
   cardFlipper.classList.toggle('flipped');
 });
 
-// Toast helper
+// TOAST
 function showToast(message = 'Success!') {
   toast.textContent = message;
   toast.classList.add('show');
   setTimeout(() => toast.classList.remove('show'), 4000);
 }
 
-// Helper: Set image state
+// SET IMAGE STATE
 function setImageLoadState(img) {
   img.classList.add('loading');
   img.onload = () => {
@@ -46,13 +45,12 @@ function setImageLoadState(img) {
   };
 }
 
-
-// FORM submission
+// FORM SUBMISSION
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const file = document.getElementById('aadhaarFile').files[0];
   const password = document.getElementById('password').value;
-
   if (!file || !password) return;
 
   const formData = new FormData();
@@ -80,18 +78,19 @@ form.addEventListener('submit', async (e) => {
       const downloadFront = document.getElementById('downloadFront');
       const downloadBack = document.getElementById('downloadBack');
 
-      setImageLoadState(templateFront);
-      setImageLoadState(templateBack);
-
+      // Assign src first
       templateFront.src = base + data.downloadUrlFront;
       templateBack.src = base + data.downloadUrlBack;
 
-      downloadFront.href = base + data.downloadUrlFront;
-      downloadBack.href = base + data.downloadUrlBack;
+      // Then set image state
+      setImageLoadState(templateFront);
+      setImageLoadState(templateBack);
+
+      downloadFront.href = templateFront.src;
+      downloadBack.href = templateBack.src;
 
       document.getElementById('templatePreview').style.display = 'block';
 
-      // Wait for both images
       await Promise.all([
         new Promise(res => templateFront.onload = res),
         new Promise(res => templateBack.onload = res)

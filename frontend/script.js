@@ -1,3 +1,4 @@
+// ✅ Updated script.js
 console.log("Script loaded");
 
 const form = document.getElementById('uploadForm');
@@ -37,13 +38,27 @@ form.addEventListener('submit', async (e) => {
       alert(data.error);
     } else {
       const base = window.location.origin;
-      document.getElementById('templateFront').src = base + data.downloadUrlFront;
-      document.getElementById('templateBack').src = base + data.downloadUrlBack;
+      const templateFront = document.getElementById('templateFront');
+      const templateBack = document.getElementById('templateBack');
+      const downloadFront = document.getElementById('downloadFront');
+      const downloadBack = document.getElementById('downloadBack');
 
-      document.getElementById('downloadFront').href = base + data.downloadUrlFront;
-      document.getElementById('downloadBack').href = base + data.downloadUrlBack;
+      templateFront.loading = 'lazy';
+      templateBack.loading = 'lazy';
+
+      templateFront.src = base + data.downloadUrlFront;
+      templateBack.src = base + data.downloadUrlBack;
+
+      downloadFront.href = base + data.downloadUrlFront;
+      downloadBack.href = base + data.downloadUrlBack;
 
       document.getElementById('templatePreview').style.display = 'block';
+
+      // wait for both images to load
+      await Promise.all([
+        new Promise(resolve => templateFront.onload = resolve),
+        new Promise(resolve => templateBack.onload = resolve)
+      ]);
 
       // reset spinner
       btnText.textContent = 'Generate Aadhaar Card';

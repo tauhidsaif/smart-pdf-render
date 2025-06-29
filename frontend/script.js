@@ -1,30 +1,29 @@
 console.log("Script loaded");
 
-// Dark mode toggle
+const form = document.getElementById('uploadForm');
+const spinner = document.getElementById('spinner');
+const btnText = document.getElementById('btnText');
+const cardFlipper = document.getElementById('cardFlipper');
+const toast = document.getElementById('toast');
+
+// DARK MODE toggle
 const darkToggle = document.getElementById('darkToggle');
-if (darkToggle) {
-  darkToggle.addEventListener('change', (e) => {
-    document.body.classList.toggle('dark', e.target.checked);
-  });
-}
+darkToggle.addEventListener('change', () => {
+  document.body.classList.toggle('dark', darkToggle.checked);
+});
 
-document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+// FORM submission
+form.addEventListener('submit', async (e) => {
   e.preventDefault();
-
   const file = document.getElementById('aadhaarFile').files[0];
   const password = document.getElementById('password').value;
-  const btnText = document.getElementById('btnText');
-  const spinner = document.getElementById('spinner');
-
-  if (!file || !password) return alert("Please select file and enter password");
-
   const formData = new FormData();
   formData.append('aadhaar', file);
   formData.append('password', password);
 
-  // Show loader only on submit
-  btnText.textContent = "Processing...";
+  // show spinner
   spinner.classList.remove('hidden');
+  btnText.textContent = 'Generating...';
 
   try {
     const res = await fetch('/upload', {
@@ -34,31 +33,35 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    // Hide loader
-    btnText.textContent = "Generate Aadhaar Card";
-    spinner.classList.add('hidden');
-
     if (data.error) {
       alert(data.error);
-      return;
+    } else {
+      const base = window.location.origin;
+      document.getElementById('templateFront').src = base + data.downloadUrlFront;
+      document.getElementById('templateBack').src = base + data.downloadUrlBack;
+
+      document.getElementById('downloadFront').href = base + data.downloadUrlFront;
+      document.getElementById('downloadBack').href = base + data.downloadUrlBack;
+
+      document.getElementById('templatePreview').style.display = 'block';
+
+      // reset spinner
+      btnText.textContent = 'Generate Aadhaar Card';
+      spinner.classList.add('hidden');
+
+      // show toast
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 4000);
     }
-
-    const base = window.location.origin;
-
-    document.getElementById('templateFront').src = base + data.downloadUrlFront;
-    document.getElementById('templateBack').src = base + data.downloadUrlBack;
-
-    document.getElementById('templatePreview').style.display = 'block';
-    document.getElementById('downloadFront').href = base + data.downloadUrlFront;
-    document.getElementById('downloadBack').href = base + data.downloadUrlBack;
-
-    document.getElementById('downloadFront').style.display = 'inline-block';
-    document.getElementById('downloadBack').style.display = 'inline-block';
-
   } catch (err) {
-    btnText.textContent = "Generate Aadhaar Card";
-    spinner.classList.add('hidden');
     console.error('Upload failed', err);
-    alert('Something went wrong while uploading.');
+    alert('Something went wrong');
+    spinner.classList.add('hidden');
+    btnText.textContent = 'Generate Aadhaar Card';
   }
+});
+
+// Flip card on click
+cardFlipper.addEventListener('click', () => {
+  cardFlipper.classList.toggle('flipped');
 });

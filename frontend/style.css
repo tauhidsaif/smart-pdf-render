@@ -1,4 +1,4 @@
-/* Base styles */
+/* ✅ Updated style.css */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -18,7 +18,6 @@ body.dark {
   color: #f1f1f1;
 }
 
-/* Glassmorphism Container */
 .container.glass {
   max-width: 1100px;
   margin: auto;
@@ -31,7 +30,6 @@ body.dark {
   transition: background 0.3s;
 }
 
-/* Top Bar */
 .top-bar {
   display: flex;
   justify-content: space-between;
@@ -39,7 +37,6 @@ body.dark {
   margin-bottom: 25px;
 }
 
-/* Dark toggle switch */
 .dark-toggle {
   position: relative;
   display: inline-block;
@@ -81,7 +78,6 @@ body.dark {
   transform: translateX(26px);
 }
 
-/* Form styles */
 form {
   display: flex;
   flex-direction: column;
@@ -110,14 +106,15 @@ button {
   align-items: center;
   gap: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 0 10px #007bff80;
 }
 
 button:hover {
   background-color: #0056b3;
+  box-shadow: 0 0 15px #0056b380;
 }
 
-/* Spinner */
 .spinner {
   width: 20px;
   height: 20px;
@@ -136,16 +133,17 @@ button:hover {
   100% { transform: rotate(360deg); }
 }
 
-/* Template Preview */
 #templatePreview {
-  margin-top: 30px;
+  margin-top: 40px;
   text-align: center;
 }
-/* Flip Card Container */
+
 .flip-container {
   perspective: 1000px;
   margin-top: 40px;
   position: relative;
+  max-width: 100%;
+  padding: 0 10px;
 }
 
 .flip-card {
@@ -171,6 +169,14 @@ button:hover {
   position: absolute;
   width: 100%;
   backface-visibility: hidden;
+  padding-bottom: 10px;
+}
+
+.flip-card-front h4,
+.flip-card-back h4 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #555;
 }
 
 .flip-card-front {
@@ -182,12 +188,14 @@ button:hover {
   transform: rotateY(180deg);
 }
 
-/* Flip image style */
 .flip-card-front img,
 .flip-card-back img {
   width: 100%;
   max-width: 100%;
-  border-radius: 12px;
+  border: 1px solid #ccc;
+  border-radius: 16px;
+  padding: 5px;
+  background: white;
   margin-bottom: 10px;
 }
 
@@ -199,7 +207,6 @@ button:hover {
   margin-top: 5px;
 }
 
-/* Flip tip */
 .flip-tip {
   margin-top: 10px;
   font-size: 14px;
@@ -207,7 +214,6 @@ button:hover {
   font-style: italic;
 }
 
-/* Toast Notification */
 .toast {
   position: fixed;
   bottom: 30px;
@@ -227,7 +233,7 @@ button:hover {
   opacity: 1;
   pointer-events: all;
 }
-/* Dark mode overrides */
+
 body.dark .container.glass {
   background: rgba(255, 255, 255, 0.08);
   box-shadow: 0 8px 32px rgba(255, 255, 255, 0.1);
@@ -257,7 +263,6 @@ body.dark .toast {
   background: #0d6efd;
 }
 
-/* Responsive Design */
 @media (max-width: 768px) {
   .container.glass {
     padding: 20px;
@@ -295,4 +300,15 @@ body.dark .toast {
     font-size: 14px;
     padding: 12px 18px;
   }
+}
+
+img.loading {
+  filter: blur(4px);
+  opacity: 0.6;
+  transition: filter 0.3s ease, opacity 0.3s ease;
+}
+
+img.loaded {
+  filter: blur(0);
+  opacity: 1;
 }

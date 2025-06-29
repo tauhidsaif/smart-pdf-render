@@ -36,11 +36,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 const qpdfPath = 'qpdf';
-const popplerBin = `"C:\\poppler\\Library\\bin\\`;
-const pdftotextPath = `${popplerBin}pdftotext.exe"`;
-const pdfimagesPath = `${popplerBin}pdfimages.exe"`;
-
-
+const pdftotextPath = 'pdftotext';
+const pdfimagesPath = 'pdfimages';
 
 app.post('/upload', upload.single('aadhaar'), async (req, res) => {
   

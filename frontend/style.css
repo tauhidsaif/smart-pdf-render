@@ -334,14 +334,3 @@ body.dark .toast {
     padding: 12px 18px;
   }
 }
-
-img.loading {
-  filter: blur(4px);
-  opacity: 0.6;
-  transition: filter 0.3s ease, opacity 0.3s ease;
-}
-
-img.loaded {
-  filter: blur(0);
-  opacity: 1;
-}

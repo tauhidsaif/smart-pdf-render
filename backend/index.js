@@ -229,7 +229,7 @@ app.post('/upload', upload.single('aadhaar'), async (req, res) => {
                   qrPath = path.join(userDir, `${baseName}_qr.png`);
 
                   // Use ImageMagick CLI to convert .ppm → .png
-                  const convertCmd = `magick "${ppmPath}" "${qrPath}"`;
+  const convertCmd = `convert "${ppmPath}" "${qrPath}"`;
 
                   try {
                     await new Promise((resolve, reject) => {

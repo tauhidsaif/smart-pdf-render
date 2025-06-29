@@ -1,6 +1,6 @@
 console.log("Script loaded");
 
-// 🌗 Dark mode toggle
+// Dark mode toggle
 const darkToggle = document.getElementById('darkToggle');
 if (darkToggle) {
   darkToggle.addEventListener('change', (e) => {
@@ -10,18 +10,21 @@ if (darkToggle) {
 
 document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const file = document.getElementById('aadhaarFile').files[0];
   const password = document.getElementById('password').value;
+  const btnText = document.getElementById('btnText');
+  const spinner = document.getElementById('spinner');
+
+  if (!file || !password) return alert("Please select file and enter password");
 
   const formData = new FormData();
   formData.append('aadhaar', file);
   formData.append('password', password);
 
-  // Show loading spinner
-  const btnText = document.getElementById('btnText');
-  const spinner = document.getElementById('spinner');
-  if (btnText) btnText.textContent = 'Processing...';
-  if (spinner) spinner.classList.remove('hidden');
+  // Show loader only on submit
+  btnText.textContent = "Processing...";
+  spinner.classList.remove('hidden');
 
   try {
     const res = await fetch('/upload', {
@@ -31,8 +34,9 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
 
     const data = await res.json();
 
-    if (btnText) btnText.textContent = 'Generate Aadhaar Card';
-    if (spinner) spinner.classList.add('hidden');
+    // Hide loader
+    btnText.textContent = "Generate Aadhaar Card";
+    spinner.classList.add('hidden');
 
     if (data.error) {
       alert(data.error);
@@ -52,9 +56,9 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
     document.getElementById('downloadBack').style.display = 'inline-block';
 
   } catch (err) {
-    if (btnText) btnText.textContent = 'Generate Aadhaar Card';
-    if (spinner) spinner.classList.add('hidden');
+    btnText.textContent = "Generate Aadhaar Card";
+    spinner.classList.add('hidden');
     console.error('Upload failed', err);
-    alert('Something went wrong');
+    alert('Something went wrong while uploading.');
   }
 });

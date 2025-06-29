@@ -33,17 +33,25 @@ function showToast(message = 'Success!') {
 
 // SET IMAGE STATE
 function setImageLoadState(img) {
+  img.classList.remove('loaded');
   img.classList.add('loading');
+
   img.onload = () => {
     img.classList.remove('loading');
     img.classList.add('loaded');
   };
+
   img.onerror = () => {
     img.classList.remove('loading');
-    img.classList.remove('loaded');
     console.error('Failed to load image:', img.src);
   };
+
+  // ✅ Force reload even if cached
+  const src = img.src;
+  img.src = '';
+  img.src = src;
 }
+
 
 // FORM SUBMISSION
 form.addEventListener('submit', async (e) => {

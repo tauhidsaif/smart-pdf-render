@@ -39,7 +39,13 @@ function setImageLoadState(img) {
     img.classList.remove('loading');
     img.classList.add('loaded');
   };
+  img.onerror = () => {
+    img.classList.remove('loading');
+    img.classList.remove('loaded');
+    console.error('Failed to load image:', img.src);
+  };
 }
+
 
 // FORM submission
 form.addEventListener('submit', async (e) => {

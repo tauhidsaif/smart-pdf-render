@@ -35,7 +35,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-const qpdfPath = `"C:\\Program Files\\qpdf 12.2.0\\bin\\qpdf.exe"`; 
+const qpdfPath = 'qpdf';
 const popplerBin = `"C:\\poppler\\Library\\bin\\`;
 const pdftotextPath = `${popplerBin}pdftotext.exe"`;
 const pdfimagesPath = `${popplerBin}pdfimages.exe"`;

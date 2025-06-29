@@ -66,8 +66,12 @@ app.post('/upload', upload.single('aadhaar'), async (req, res) => {
   const imagePrefix = path.join(userDir, `${baseName}_photo`);
 
 
-  exec(`${qpdfPath} --password=${password} --decrypt "${newOriginalPath}" "${decryptedPath}"`, (err) => {
-    if (err) return res.status(400).json({ error: 'Invalid password or file issue.' });
+      exec(`${qpdfPath} --password=${password} --decrypt "${newOriginalPath}" "${decryptedPath}"`, (err, stdout, stderr) => {
+      if (err) {
+        console.error('❌ QPDF error:', stderr || err.message);
+        return res.status(400).json({ error: 'QPDF failed: ' + (stderr || err.message) });
+      }
+
 
     exec(`${pdftotextPath} "${decryptedPath}" "${txtPath}"`, (err) => {
       if (err) return res.status(500).json({ error: 'Text extraction failed.' });

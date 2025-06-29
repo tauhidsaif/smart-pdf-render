@@ -9,7 +9,8 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   formData.append('password', password);
 
   try {
-    fetch(window.location.origin + '/upload', {
+    // ✅ Send the request and wait for the response
+    const res = await fetch('/upload', {
       method: 'POST',
       body: formData
     });
@@ -20,20 +21,21 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
       return;
     }
 
-    document.getElementById('templateFront').src = `http://localhost:5000${data.downloadUrlFront}`;
-    document.getElementById('templateBack').src = `http://localhost:5000${data.downloadUrlBack}`;
+    // ✅ Use same origin for image URLs (no localhost)
+    const base = window.location.origin;
+
+    document.getElementById('templateFront').src = base + data.downloadUrlFront;
+    document.getElementById('templateBack').src = base + data.downloadUrlBack;
 
     document.getElementById('templateFront').style.display = 'block';
     document.getElementById('templateBack').style.display = 'block';
-
     document.getElementById('templatePreview').style.display = 'block';
 
-    document.getElementById('downloadFront').href = `http://localhost:5000${data.downloadUrlFront}`;
-    document.getElementById('downloadBack').href = `http://localhost:5000${data.downloadUrlBack}`;
+    document.getElementById('downloadFront').href = base + data.downloadUrlFront;
+    document.getElementById('downloadBack').href = base + data.downloadUrlBack;
 
     document.getElementById('downloadFront').style.display = 'inline-block';
     document.getElementById('downloadBack').style.display = 'inline-block';
-
 
   } catch (err) {
     console.error('Upload failed', err);

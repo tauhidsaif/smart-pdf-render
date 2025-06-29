@@ -40,12 +40,14 @@ const popplerBin = `"C:\\poppler\\Library\\bin\\`;
 const pdftotextPath = `${popplerBin}pdftotext.exe"`;
 const pdfimagesPath = `${popplerBin}pdfimages.exe"`;
 
-console.log('UPLOAD RECEIVED');
-console.log('File:', req.file);
-console.log('Password:', req.body.password);
 
 
 app.post('/upload', upload.single('aadhaar'), async (req, res) => {
+  
+  console.log('UPLOAD RECEIVED');
+  console.log('File:', req.file);
+  console.log('Password:', req.body.password);
+
   const password = req.body.password;
   const originalPath = req.file.path;
   const baseName = path.basename(req.file.originalname, path.extname(req.file.originalname));

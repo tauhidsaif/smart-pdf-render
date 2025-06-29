@@ -9,7 +9,7 @@ document.getElementById('uploadForm').addEventListener('submit', async (e) => {
   formData.append('password', password);
 
   try {
-    const res = await fetch('http://localhost:5000/upload', {
+    fetch(window.location.origin + '/upload', {
       method: 'POST',
       body: formData
     });

@@ -435,4 +435,13 @@ app.post('/upload', upload.single('aadhaar'), async (req, res) => {
   });
 });
 
+
+const frontendPath = path.join(__dirname, '..', 'frontend');
+app.use(express.static(frontendPath));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(frontendPath, 'index.html'));
+});
+
+
 app.listen(5000, () => console.log('✅ Server running at http://localhost:5000'));

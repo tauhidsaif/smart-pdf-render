@@ -1,28 +1,59 @@
-// ✅ Updated script.js
+// ✅ Enhanced script.js
 console.log("Script loaded");
 
 const form = document.getElementById('uploadForm');
 const spinner = document.getElementById('spinner');
 const btnText = document.getElementById('btnText');
+const submitBtn = document.getElementById('submitBtn');
 const cardFlipper = document.getElementById('cardFlipper');
 const toast = document.getElementById('toast');
-
-// DARK MODE toggle
 const darkToggle = document.getElementById('darkToggle');
+
+// Toggle dark mode
+if (localStorage.getItem('theme') === 'dark') {
+  darkToggle.checked = true;
+  document.body.classList.add('dark');
+}
+
 darkToggle.addEventListener('change', () => {
   document.body.classList.toggle('dark', darkToggle.checked);
+  localStorage.setItem('theme', darkToggle.checked ? 'dark' : 'light');
 });
+
+// Flip card on click
+cardFlipper.addEventListener('click', () => {
+  cardFlipper.classList.toggle('flipped');
+});
+
+// Toast helper
+function showToast(message = 'Success!') {
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 4000);
+}
+
+// Helper: Set image state
+function setImageLoadState(img) {
+  img.classList.add('loading');
+  img.onload = () => {
+    img.classList.remove('loading');
+    img.classList.add('loaded');
+  };
+}
 
 // FORM submission
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const file = document.getElementById('aadhaarFile').files[0];
   const password = document.getElementById('password').value;
+
+  if (!file || !password) return;
+
   const formData = new FormData();
   formData.append('aadhaar', file);
   formData.append('password', password);
 
-  // show spinner
+  submitBtn.disabled = true;
   spinner.classList.remove('hidden');
   btnText.textContent = 'Generating...';
 
@@ -43,8 +74,8 @@ form.addEventListener('submit', async (e) => {
       const downloadFront = document.getElementById('downloadFront');
       const downloadBack = document.getElementById('downloadBack');
 
-      templateFront.loading = 'lazy';
-      templateBack.loading = 'lazy';
+      setImageLoadState(templateFront);
+      setImageLoadState(templateBack);
 
       templateFront.src = base + data.downloadUrlFront;
       templateBack.src = base + data.downloadUrlBack;
@@ -54,29 +85,20 @@ form.addEventListener('submit', async (e) => {
 
       document.getElementById('templatePreview').style.display = 'block';
 
-      // wait for both images to load
+      // Wait for both images
       await Promise.all([
-        new Promise(resolve => templateFront.onload = resolve),
-        new Promise(resolve => templateBack.onload = resolve)
+        new Promise(res => templateFront.onload = res),
+        new Promise(res => templateBack.onload = res)
       ]);
 
-      // reset spinner
-      btnText.textContent = 'Generate Aadhaar Card';
-      spinner.classList.add('hidden');
-
-      // show toast
-      toast.classList.add('show');
-      setTimeout(() => toast.classList.remove('show'), 4000);
+      showToast('Aadhaar card generated successfully!');
     }
   } catch (err) {
     console.error('Upload failed', err);
     alert('Something went wrong');
-    spinner.classList.add('hidden');
+  } finally {
     btnText.textContent = 'Generate Aadhaar Card';
+    spinner.classList.add('hidden');
+    submitBtn.disabled = false;
   }
-});
-
-// Flip card on click
-cardFlipper.addEventListener('click', () => {
-  cardFlipper.classList.toggle('flipped');
 });
